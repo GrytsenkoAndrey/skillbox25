@@ -6,6 +6,15 @@
  * Time: 11:33
  */
 
+
+set_exception_handler(function (Throwable $e) {
+    echo 'Was not caught ' . $e->getMessage();
+});
+
+
+
+
+/*
 class BadValueException extends \InvalidArgumentException
 {
 
@@ -60,7 +69,7 @@ echo "</pre>";
 
 echo 'THE END';
 
-/*
+
 throw new Exception('Some error', 300);
 
 echo "THE END";
