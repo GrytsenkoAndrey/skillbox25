@@ -19,6 +19,7 @@ class UserFormValidation
         if (strpos($data['email'], '@') == 0) {
             throw new Exception('Email is wrong!');
         }
+        return true;
     }
 }
 

@@ -40,6 +40,7 @@ class UserFormValidation
         if (strpos($data['email'], '@') == 0) {
             throw new Exception('Email is wrong!');
         }
+        return true;
     }
 }
 
@@ -54,12 +55,10 @@ $user->save(['id' => 13, 'name' => 'pa']);
 if (!empty($_POST)) {
     try {
         $user->load($_POST['id']);
-        try {
-            $success = (new UserFormValidation())->validate($_POST);
-            $user->save($_POST);
-        } catch (Exception $e) {
-            $error = $e->getMessage();
-        }
+
+        $success = (new UserFormValidation())->validate($_POST);
+        $user->save($_POST);
+
     } catch (Exception $e) {
         $error = $e->getMessage();
     }
