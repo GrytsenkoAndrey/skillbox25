@@ -14,27 +14,39 @@ class Calculator
     }
 }
 
-function minus($n1, $n2)
-{
-    return $n1 - $n2;
-}
-function divide($n1, $n2)
-{
-    return $n1 / $n2;
-}
-function mult($n1, $n2)
-{
-    return $n1 * $n2;
-}
+$add = function ($number1, $number2) {
+    return $number1 + $number2;
+};
 
 
 $callbacks = [
-    'minus',
 
-    'divide',
+    $add,
+
+    function ($number1, $number2) {
+        return $number1 - $number2;
+    },
 
     'mult',
+
+    [new Divider(), 'divide'],
+
 ];
+
+
+function mult($number1, $number2)
+{
+    return $number1 * $number2;
+}
+
+
+class Divider
+{
+    public function divide($number1, $number2)
+    {
+        return $number1 / $number2;
+    }
+}
 
 $numbers = [
     [
@@ -56,16 +68,13 @@ echo "<pre>";
 foreach ($numbers as $item) {
     echo '== Numbers are ' . $item[0] . " " . $item[1] . ":<br>";
     # анонимная функция
-    echo Calculator::calculate($item[0], $item[1], function ($n1, $n2) {
-            return $n1 + $n2;
-        }) . "<br>";
+    echo Calculator::calculate($item[0], $item[1], $callbacks[1]) . "<br>";
     # user_func_array
-    echo call_user_func_array($callbacks[0], $item ) . "<br>";
-    # callback
-    echo $callbacks[1]($item[0], $item[1]) . "<br>";
+    echo Calculator::calculate($item[0], $item[1], $callbacks[0]) . "<br>";
     # по имени через строку
     echo Calculator::calculate($item[0], $item[1], $callbacks[2]) . "<br>";
+    # callback
+    echo Calculator::calculate($item[0], $item[1], $callbacks[3]) . "<br>";
 }
-
 
 echo "</pre>";
